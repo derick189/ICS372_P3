@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cheetahs.androidUI">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="cheetahs.androidUI.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="cheetahs.androidUI.AddFileActivity" />
+        <activity android:name="cheetahs.androidUI.AddMemberActivity" />
+        <activity android:name="cheetahs.androidUI.CheckInOutActivity" />
+        <activity android:name="cheetahs.androidUI.ItemStatusActivity" />
+        <activity android:name="cheetahs.androidUI.MembersItemsActivity" />
+        <activity android:name="cheetahs.androidUI.DisplayLibraryActivity" />
+    </application>
+
+</manifest>

@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
 
             case R.id.addFileData:
+
                 intent = new Intent(this, AddFileActivity.class);
                 startActivity(intent);
                 break;

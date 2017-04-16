@@ -14,5 +14,7 @@
     <string name="checkIn">Check In</string>
     <string name="main_library">Main Library</string>
     <string name="sister_library">Sister Library</string>
+    <string name="findFile">Find File</string>
+    <string name="fileName">File Name</string>
 
 </resources>

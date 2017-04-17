@@ -9,7 +9,8 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+
+        protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ((Button) findViewById(R.id.addFileData)).setOnClickListener(this);
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ((Button) findViewById(R.id.changeCheckItemStatus)).setOnClickListener(this);
         ((Button) findViewById(R.id.usersCheckedOut)).setOnClickListener(this);
         ((Button) findViewById(R.id.displayLibrary)).setOnClickListener(this);
-    }
+        }
 
     public void onClick(View view) {
 

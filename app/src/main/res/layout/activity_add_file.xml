@@ -11,13 +11,12 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/findFile" />
+        android:text="@string/findFile"/>
 
-    <EditText
+    <TextView
         android:id="@+id/file"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/fileName" />
+        android:layout_height="wrap_content"/>
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -28,14 +27,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/main_library" />
+            android:text="@string/main_library"/>
 
         <RadioButton
             android:id="@+id/radioSister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sister_library" />
+            android:text="@string/sister_library"/>
     </RadioGroup>
 
     <Button
@@ -43,12 +42,11 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/addFile" />
+        android:text="@string/addFile"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is the Add File Activity"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

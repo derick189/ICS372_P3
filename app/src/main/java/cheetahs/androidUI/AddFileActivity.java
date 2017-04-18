@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,9 +29,11 @@ import cheetahs.library.Library;
 public class AddFileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int READ_REQUEST_CODE = 42;
     private Uri uri;
-    private EditText fileText;
-  //  private Controller controller;
+    private TextView fileText;
+    private Controller controller;
     private File file;
+    private RadioButton mainRad, sisterRad;
+    private TextView text;
 
 //    private RadioButton mainRad = (RadioButton) findViewById(R.id.radioMain);
   //  private RadioButton sisterRad = (RadioButton) findViewById(R.id.radioSister);
@@ -41,6 +44,10 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_add_file);
         ((Button) findViewById(R.id.addFileData)).setOnClickListener(this);
         ((Button) findViewById(R.id.findFile)).setOnClickListener(this);
+        fileText = (TextView) findViewById(R.id.file);
+        sisterRad = (RadioButton) findViewById(R.id.radioSister);
+        mainRad = (RadioButton) findViewById(R.id.radioMain);
+        text =  (TextView) findViewById(R.id.textView);
     }
     public void onClick(View view) {
 
@@ -49,18 +56,18 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.findFile:
 
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                //intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
                 startActivityForResult(intent, READ_REQUEST_CODE);
                 break;
-//
-//            case R.id.addFileData:
-//                Library.Type lib;
-//                if (sisterRad.isChecked())
-//                    lib = Library.Type.SISTER;
-//                else
-//                    lib = Library.Type.MAIN;
-//                controller.addFileData(file, lib);
+
+            case R.id.addFileData:
+                Library.Type lib;
+                if (sisterRad.isChecked())
+                    lib = Library.Type.SISTER;
+                else
+                    lib = Library.Type.MAIN;
+                controller.addFileData(file, lib);
         }
     }
     @Override
@@ -76,7 +83,6 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
-
             try {
                 if (resultData != null) {
                     uri = resultData.getData();
@@ -90,33 +96,33 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
 
                 }
             }catch(RuntimeException re){}
-//            try {
-//                readTextFromUri(uri);
-//            }catch(RuntimeException re){};
+            try {
+                readTextFromUri(uri);
+            }catch(RuntimeException re){};
         }
     }
-//
-//    private void readTextFromUri(Uri uri) {
-//        try {
-//            InputStream inputStream = getContentResolver().openInputStream(uri);
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(
-//                    inputStream));
-//            StringBuilder stringBuilder = new StringBuilder();
-//            String line;
-//            PrintWriter outFile = new PrintWriter(file);
-//
-//            while ((line = reader.readLine()) != null) {
-//                outFile.write(line);
-//            }
-//            inputStream.close();
-//            reader.close();
-//            outFile.close();
-//
-//            return;
-//        } catch (IOException e) {
-//        }
-//
-//    }
-//
+
+    private void readTextFromUri(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            PrintWriter outFile = new PrintWriter(file);
+
+            while ((line = reader.readLine()) != null) {
+                outFile.write(line);
+            }
+            inputStream.close();
+            reader.close();
+            outFile.close();
+
+            return;
+        } catch (IOException e) {
+        }
+
+    }
+
 
 }

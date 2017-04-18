@@ -30,7 +30,7 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
     private static final int READ_REQUEST_CODE = 42;
     private Uri uri;
     private TextView fileText;
-    private Controller controller;
+    private Controller controller = new Controller();
     private File file;
     private RadioButton mainRad, sisterRad;
     private TextView text;
@@ -67,7 +67,8 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                     lib = Library.Type.SISTER;
                 else
                     lib = Library.Type.MAIN;
-                controller.addFileData(file, lib);
+            //    controller.addFileData(file, lib);
+                text.append("Your file data has been imported");
         }
     }
     @Override
@@ -94,6 +95,7 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                     else
                         fileText.append("Incompatible File Type");
 
+
                 }
             }catch(RuntimeException re){}
             try {
@@ -104,22 +106,23 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void readTextFromUri(Uri uri) {
         try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    inputStream));
-            StringBuilder stringBuilder = new StringBuilder();
+            InputStream inputStream;
+            inputStream = getContentResolver().openInputStream(uri);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+           // StringBuilder stringBuilder = new StringBuilder();
             String line;
             PrintWriter outFile = new PrintWriter(file);
 
             while ((line = reader.readLine()) != null) {
                 outFile.write(line);
+                text.append(line);          // Testing purposes
             }
             inputStream.close();
             reader.close();
             outFile.close();
 
             return;
-        } catch (IOException e) {
+        } catch (IOException e) { text.append("Problem reading file");
         }
 
     }

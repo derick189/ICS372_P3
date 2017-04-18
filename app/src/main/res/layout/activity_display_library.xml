@@ -1,21 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android=
+    "http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cheetahs.androidUI.DisplayLibraryActivity">
+    android:weightSum="1"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:id="@+id/textSelectLibrary"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the Display Library Items Activity"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="15dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="28dp" />
-</android.support.constraint.ConstraintLayout>
+        android:text="@string/select_library"
+        android:textSize="18sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/main_library"/>
+
+        <RadioButton
+            android:id="@+id/radioSister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sister_library"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textSelectItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_items"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/chBoxBooks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/books" />
+
+        <CheckBox
+            android:id="@+id/chBoxCDs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cds" />
+
+        <CheckBox
+            android:id="@+id/chBoxDVDs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dvds" />
+
+        <CheckBox
+            android:id="@+id/chBoxMags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/magazines" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/displayLibrary"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/displayLibrary"/>
+
+    <TextView
+        android:id="@+id/libraryDisplayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

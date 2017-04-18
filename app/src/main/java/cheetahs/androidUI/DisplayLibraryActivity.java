@@ -10,15 +10,18 @@ import android.widget.TextView;
 
 import cheetahs.library.Library;
 
-public class DisplayLibraryActivity extends AppCompatActivity implements View.OnClickListener{
-    private CheckBox chBoxBooks, chBoxCDs, chBoxDVDs, chBoxMags;
+public class DisplayLibraryActivity extends AppCompatActivity implements View.OnClickListener {
     private RadioButton mainRad, sisterRad;
+    private CheckBox chBoxBooks, chBoxCDs, chBoxDVDs, chBoxMags;
     TextView displayText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_library);
+        mainRad = (RadioButton) findViewById(R.id.radioMain);
+        mainRad.setChecked(true);
+        sisterRad = (RadioButton) findViewById(R.id.radioSister);
         chBoxBooks = (CheckBox) findViewById(R.id.chBoxBooks);
         chBoxBooks.setChecked(true);
         chBoxCDs = (CheckBox) findViewById(R.id.chBoxCDs);
@@ -27,26 +30,23 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
         chBoxDVDs.setChecked(true);
         chBoxMags = (CheckBox) findViewById(R.id.chBoxMags);
         chBoxMags.setChecked(true);
-        ((Button) findViewById(R.id.displayLibrary)).setOnClickListener(this);
-        mainRad = (RadioButton) findViewById(R.id.radioMain);
-        mainRad.setChecked(true);
-        sisterRad = (RadioButton) findViewById(R.id.radioSister);
-        displayText = (TextView) findViewById(R.id.libraryDisplayText);
+        ((Button) findViewById(R.id.btnDisplayLibrary)).setOnClickListener(this);
+        displayText = (TextView) findViewById(R.id.textDisplayLibrary);
     }
 
-    public void onClick(View view){
+    @Override
+    public void onClick(View view) {
         int mask = getMask();
-        displayText.append(String.valueOf(mask));
         Library.Type lib;
         if (sisterRad.isChecked())
             lib = Library.Type.SISTER;
         else
             lib = Library.Type.MAIN;
         String libData = MainActivity.controller.displayLibraryItems(mask, lib);
-        displayText.append(libData);
+        displayText.append(libData + "\n");
     }
 
-    private int getMask(){
+    private int getMask() {
         int fmask = 0;
         if (chBoxBooks.isChecked())
             fmask = fmask + 1;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -18,10 +19,8 @@ import cheetahs.library.Library;
 public class AddFileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int READ_REQUEST_CODE = 42;
     private Uri uri;
-    private TextView fileText;
-    private File file;
-    private RadioButton mainRad, sisterRad;
-    private TextView text;
+    private TextView textFindFile, textAddFileData;
+    private RadioButton radioMain, radioSister;
 
 //    private RadioButton mainRad = (RadioButton) findViewById(R.id.radioMain);
     //  private RadioButton sisterRad = (RadioButton) findViewById(R.id.radioSister);
@@ -30,29 +29,31 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_file);
-        ((Button) findViewById(R.id.addFileData)).setOnClickListener(this);
-        ((Button) findViewById(R.id.findFile)).setOnClickListener(this);
-        fileText = (TextView) findViewById(R.id.file);
-        mainRad = (RadioButton) findViewById(R.id.radioMain);
-        mainRad.setChecked(true);
-        sisterRad = (RadioButton) findViewById(R.id.radioSister);
-        text = (TextView) findViewById(R.id.textView);
+
+        ((Button) findViewById(R.id.btnFindFile)).setOnClickListener(this);
+        textFindFile = (TextView) findViewById(R.id.textFindFile);
+        radioMain = (RadioButton) findViewById(R.id.radioMain);
+        radioMain.setChecked(true);
+        radioSister = (RadioButton) findViewById(R.id.radioSister);
+        ((Button) findViewById(R.id.btnAddFileData)).setOnClickListener(this);
+        textAddFileData = (TextView) findViewById(R.id.textAddFileData);
     }
 
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.findFile:
+            case R.id.btnFindFile:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 //intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
                 startActivityForResult(intent, READ_REQUEST_CODE);
                 break;
-            case R.id.addFileData:
+            case R.id.btnAddFileData:
                 Library.Type lib;
                 InputStream inputStream = null;
                 String fileType = null;
 
-                if (sisterRad.isChecked()) {
+                if (radioSister.isChecked()) {
                     lib = Library.Type.SISTER;
                 } else {
                     lib = Library.Type.MAIN;
@@ -67,12 +68,12 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                 } else if (uri.toString().endsWith("xml")) {
                     fileType = "xml";
                 } else {
-                    fileText.append("Incompatible File Type");
+                    textAddFileData.append("Incompatible File Type" + "\n");
                 }
                 if (MainActivity.controller.addFileData(inputStream, fileType, lib)) {
-                    text.append("Your file data has been imported");
+                    textAddFileData.append("Your file data has been imported" + "\n");
                 } else {
-                    text.append("File data add failed.");
+                    textAddFileData.append("File data add failed." + "\n");
                 }
         }
     }
@@ -92,13 +93,9 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
             // Pull that URI using resultData.getData().
             if (resultData != null) {
                 uri = resultData.getData();
-                fileText.append("Uri: " + uri.toString());
-                if (uri.toString().endsWith("json")) {
-                    file = new File("sendFile.json");
-                } else if (uri.toString().endsWith("xml")) {
-                    file = new File("sendFile.xml");
-                } else {
-                    fileText.append("Incompatible File Type");
+                textFindFile.append("File used: \n" + uri.toString() + "\n");
+                if (!uri.toString().endsWith("json") && !uri.toString().endsWith("xml")) {
+                    textFindFile.append("Incompatible File Type" + "\n");
                 }
             }
         }

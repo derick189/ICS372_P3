@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import cheetahs.controller.Controller;
+import cheetahs.storage.Storage;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +25,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ((Button) findViewById(R.id.displayLibrary)).setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        controller = Storage.loadController();
+    }
+
+    @Override
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {

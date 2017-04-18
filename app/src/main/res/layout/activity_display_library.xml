@@ -72,15 +72,15 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/displayLibrary"
+        android:id="@+id/btnDisplayLibrary"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/displayLibrary"/>
+        android:text="@string/displayLibrary" />
 
     <TextView
-        android:id="@+id/libraryDisplayText"
+        android:id="@+id/textDisplayLibrary"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

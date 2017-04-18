@@ -7,16 +7,16 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/findFile"
+        android:id="@+id/btnFindFile"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/findFile"/>
+        android:text="@string/findFile" />
 
     <TextView
-        android:id="@+id/file"
+        android:id="@+id/textFindFile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -38,15 +38,15 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/addFileData"
+        android:id="@+id/btnAddFileData"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/addFile"/>
+        android:text="@string/addFile" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textAddFileData"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import cheetahs.controller.Controller;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static Controller controller = new Controller();
 
     @Override
-
-        protected void onCreate (Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ((Button) findViewById(R.id.addFileData)).setOnClickListener(this);
@@ -19,15 +22,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ((Button) findViewById(R.id.changeCheckItemStatus)).setOnClickListener(this);
         ((Button) findViewById(R.id.usersCheckedOut)).setOnClickListener(this);
         ((Button) findViewById(R.id.displayLibrary)).setOnClickListener(this);
-        }
+    }
 
     public void onClick(View view) {
-
         Intent intent;
         switch (view.getId()) {
-
             case R.id.addFileData:
-
                 intent = new Intent(this, AddFileActivity.class);
                 startActivity(intent);
                 break;

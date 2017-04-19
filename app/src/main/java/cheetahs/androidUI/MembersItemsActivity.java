@@ -2,8 +2,8 @@ package cheetahs.androidUI;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,8 +16,9 @@ public class MembersItemsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_members_items);
         editTextMemberItems = (EditText) findViewById(R.id.editTextMemberItems);
-        ((Button) findViewById(R.id.btnMemberItems)).setOnClickListener(this);
+        findViewById(R.id.btnAddMember).setOnClickListener(this);
         textMemberItems = (TextView) findViewById(R.id.textMemberItems);
+        textMemberItems.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override

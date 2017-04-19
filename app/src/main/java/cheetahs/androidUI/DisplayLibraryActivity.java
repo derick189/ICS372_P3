@@ -2,8 +2,8 @@ package cheetahs.androidUI;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -30,8 +30,9 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
         chBoxDVDs.setChecked(true);
         chBoxMags = (CheckBox) findViewById(R.id.chBoxMags);
         chBoxMags.setChecked(true);
-        ((Button) findViewById(R.id.btnDisplayLibrary)).setOnClickListener(this);
+        findViewById(R.id.btnDisplayLibrary).setOnClickListener(this);
         displayText = (TextView) findViewById(R.id.textDisplayLibrary);
+        displayText.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override

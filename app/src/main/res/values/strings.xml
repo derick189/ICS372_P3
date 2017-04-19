@@ -8,8 +8,6 @@
     <string name="displayLibrary">Display Library Items</string>
     <string name="memberNumber">Card Number</string>
     <string name="itemId">Item ID</string>
-    <string name="mainLib">Main Library</string>
-    <string name="sisLib">Sister Library</string>
     <string name="checkOut">Check Out</string>
     <string name="checkIn">Check In</string>
     <string name="main_library">Main Library</string>

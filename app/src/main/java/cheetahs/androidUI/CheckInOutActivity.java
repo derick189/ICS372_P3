@@ -1,11 +1,9 @@
 package cheetahs.androidUI;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -21,15 +19,15 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in_out);
-
         editTextCardNum = (EditText) findViewById(R.id.editTextCardNum);
         editTextItemId = (EditText) findViewById(R.id.editTextItemId);
         radioMain = (RadioButton) findViewById(R.id.radioMain);
         radioMain.setChecked(true);
         radioSister = (RadioButton) findViewById(R.id.radioSister);
-        ((Button) findViewById(R.id.btnCheckOut)).setOnClickListener(this);
-        ((Button) findViewById(R.id.btnCheckIn)).setOnClickListener(this);
+        findViewById(R.id.btnCheckOut).setOnClickListener(this);
+        findViewById(R.id.btnCheckIn).setOnClickListener(this);
         textCheckInOut = (TextView) findViewById(R.id.textCheckInOut);
+        textCheckInOut.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override

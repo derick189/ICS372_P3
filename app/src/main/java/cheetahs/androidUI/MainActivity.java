@@ -8,6 +8,9 @@ import android.view.View;
 import cheetahs.controller.Controller;
 import cheetahs.storage.Storage;
 
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public Controller controller = new Controller();

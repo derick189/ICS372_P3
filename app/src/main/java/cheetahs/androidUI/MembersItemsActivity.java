@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import cheetahs.controller.Controller;
 
+/**
+ *
+ */
 public class MembersItemsActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextMemberItems;
     private TextView textMemberItems;

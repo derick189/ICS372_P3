@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import cheetahs.controller.Controller;
 
-/*
-AddMemberActivity allows the user to have a new library card # generated for a new library user.
-It includes an EditText object to get the new library user's name, a button to generate the
-new card # and save it to the controller, and a TextView to output submitted user's name
-along with their new library card #.
+/**
+ * AddMemberActivity allows the user to have a new library card # generated for a new library user.
+ * It includes an EditText object to get the new library user's name, a button to generate the
+ * new card # and save it to the controller, and a TextView to output submitted user's name
+ * along with their new library card #.
  */
 public class AddMemberActivity extends AppCompatActivity implements View.OnClickListener {
     // EditText object for receiving new member name

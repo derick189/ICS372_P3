@@ -11,6 +11,9 @@ import android.widget.TextView;
 import cheetahs.controller.Controller;
 import cheetahs.library.Library;
 
+/**
+ *
+ */
 public class CheckInOutActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextCardNum, editTextItemId;
     private RadioButton radioMain, radioSister;

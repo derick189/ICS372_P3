@@ -11,6 +11,9 @@ import android.widget.TextView;
 import cheetahs.controller.Controller;
 import cheetahs.library.Library;
 
+/**
+ *
+ */
 public class DisplayLibraryActivity extends AppCompatActivity implements View.OnClickListener {
     private RadioButton mainRad, sisterRad;
     private CheckBox chBoxBooks, chBoxCDs, chBoxDVDs, chBoxMags;

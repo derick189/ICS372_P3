@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import cheetahs.controller.Controller;
 import cheetahs.library.Library;
 
 public class AddFileActivity extends AppCompatActivity implements View.OnClickListener {
@@ -19,10 +20,14 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
     private Uri uri;
     private TextView textFindFile, textAddFileData;
     private RadioButton radioMain, radioSister;
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = (Controller) getIntent().getSerializableExtra("controller");
+        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
+
         setContentView(R.layout.activity_add_file);
         findViewById(R.id.btnFindFile).setOnClickListener(this);
         textFindFile = (TextView) findViewById(R.id.textFindFile);
@@ -65,12 +70,14 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     textAddFileData.append("Incompatible File Type" + "\n");
                 }
-                if (MainActivity.controller.addFileData(inputStream, fileType, lib)) {
+                if (controller.addFileData(inputStream, fileType, lib)) {
                     textAddFileData.append("Your file data has been imported" + "\n");
                 } else {
                     textAddFileData.append("File data add failed." + "\n");
                 }
         }
+        String libData = controller.displayLibraryItems(15, Library.Type.MAIN);
+        textAddFileData.append(libData + "\n");
     }
 
     @Override

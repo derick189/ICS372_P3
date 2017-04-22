@@ -8,16 +8,21 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import cheetahs.controller.Controller;
 import cheetahs.library.Library;
 
 public class CheckInOutActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextCardNum, editTextItemId;
     private RadioButton radioMain, radioSister;
     private TextView textCheckInOut;
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = (Controller) getIntent().getSerializableExtra("controller");
+        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
+
         setContentView(R.layout.activity_check_in_out);
         editTextCardNum = (EditText) findViewById(R.id.editTextCardNum);
         editTextItemId = (EditText) findViewById(R.id.editTextItemId);
@@ -40,10 +45,10 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
         }
         switch (view.getId()) {
             case R.id.btnCheckOut:
-                textCheckInOut.append(MainActivity.controller.checkOut(Integer.parseInt(editTextCardNum.getText().toString().trim()), editTextItemId.getText().toString().trim(), lib));
+                textCheckInOut.append(controller.checkOut(Integer.parseInt(editTextCardNum.getText().toString().trim()), editTextItemId.getText().toString().trim(), lib));
                 break;
             case R.id.btnCheckIn:
-                textCheckInOut.append(MainActivity.controller.checkIn(editTextItemId.getText().toString().trim(), lib));
+                textCheckInOut.append(controller.checkIn(editTextItemId.getText().toString().trim(), lib));
                 break;
         }
     }

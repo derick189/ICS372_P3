@@ -7,13 +7,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import cheetahs.controller.Controller;
+
 public class MembersItemsActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextMemberItems;
     private TextView textMemberItems;
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = (Controller) getIntent().getSerializableExtra("controller");
+        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
+
         setContentView(R.layout.activity_members_items);
         editTextMemberItems = (EditText) findViewById(R.id.editTextMemberItems);
         findViewById(R.id.btnAddMember).setOnClickListener(this);
@@ -23,6 +29,6 @@ public class MembersItemsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        textMemberItems.append(MainActivity.controller.displayMemberCheckedOutItems((Integer.parseInt(editTextMemberItems.getText().toString().trim()))));
+        textMemberItems.append(controller.displayMemberCheckedOutItems((Integer.parseInt(editTextMemberItems.getText().toString().trim()))));
     }
 }

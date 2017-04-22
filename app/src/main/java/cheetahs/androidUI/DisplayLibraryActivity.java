@@ -8,16 +8,21 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import cheetahs.controller.Controller;
 import cheetahs.library.Library;
 
 public class DisplayLibraryActivity extends AppCompatActivity implements View.OnClickListener {
     private RadioButton mainRad, sisterRad;
     private CheckBox chBoxBooks, chBoxCDs, chBoxDVDs, chBoxMags;
     TextView displayText;
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = (Controller) getIntent().getSerializableExtra("controller");
+        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
+
         setContentView(R.layout.activity_display_library);
         mainRad = (RadioButton) findViewById(R.id.radioMain);
         mainRad.setChecked(true);
@@ -43,7 +48,7 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
             lib = Library.Type.SISTER;
         else
             lib = Library.Type.MAIN;
-        String libData = MainActivity.controller.displayLibraryItems(mask, lib);
+        String libData = controller.displayLibraryItems(mask, lib);
         displayText.append(libData + "\n");
     }
 

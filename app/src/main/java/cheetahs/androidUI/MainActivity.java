@@ -6,15 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import cheetahs.controller.Controller;
+import cheetahs.storage.Storage;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static Controller controller = new Controller();
+    public Controller controller = new Controller();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         findViewById(R.id.addFileData).setOnClickListener(this);
         findViewById(R.id.addMember).setOnClickListener(this);
         findViewById(R.id.checkInOut).setOnClickListener(this);
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
+        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override
@@ -34,26 +37,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.addFileData:
                 intent = new Intent(this, AddFileActivity.class);
+                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.addMember:
                 intent = new Intent(this, AddMemberActivity.class);
+                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.checkInOut:
                 intent = new Intent(this, CheckInOutActivity.class);
+                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.itemStatus:
                 intent = new Intent(this, ItemStatusActivity.class);
+                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.membersItems:
                 intent = new Intent(this, MembersItemsActivity.class);
+                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.displayLibrary:
                 intent = new Intent(this, DisplayLibraryActivity.class);
+                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
         }

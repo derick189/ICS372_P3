@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import cheetahs.controller.Controller;
 import cheetahs.items.Item;
 import cheetahs.library.Library;
 
@@ -15,10 +16,14 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
     private EditText editTextItemId;
     private RadioButton rbMain, rbSister, rbCheckStatus, rbCheckedIn, rbMissing, rbOverdue, rbReference, rbRemoved, rbShelving;
     private TextView textItemStatus;
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = (Controller) getIntent().getSerializableExtra("controller");
+        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
+
         setContentView(R.layout.activity_item_status);
         rbMain = (RadioButton) findViewById(R.id.rbMain);
         rbMain.setChecked(true);
@@ -46,19 +51,19 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
             library = Library.Type.MAIN;
         }
         if (rbCheckStatus.isChecked()) {
-            textItemStatus.append(MainActivity.controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.CHECK_STATUS, library));
+            textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.CHECK_STATUS, library));
         } else if (rbCheckedIn.isChecked()) {
-            textItemStatus.append(MainActivity.controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.CHECKED_IN, library));
+            textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.CHECKED_IN, library));
         } else if (rbMissing.isChecked()) {
-            textItemStatus.append(MainActivity.controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.MISSING, library));
+            textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.MISSING, library));
         } else if (rbOverdue.isChecked()) {
-            textItemStatus.append(MainActivity.controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.OVERDUE, library));
+            textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.OVERDUE, library));
         } else if (rbReference.isChecked()) {
-            textItemStatus.append(MainActivity.controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.REFERENCE_ONLY, library));
+            textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.REFERENCE_ONLY, library));
         } else if (rbRemoved.isChecked()) {
-            textItemStatus.append(MainActivity.controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.REMOVED_FROM_CIRCULATION, library));
+            textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.REMOVED_FROM_CIRCULATION, library));
         } else if (rbShelving.isChecked()) {
-            textItemStatus.append(MainActivity.controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.SHELVING, library));
+            textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.SHELVING, library));
         }
     }
 }

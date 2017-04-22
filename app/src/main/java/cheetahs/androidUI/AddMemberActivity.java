@@ -7,13 +7,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import cheetahs.controller.Controller;
+
 public class AddMemberActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextMemberName;
     private TextView textNewMember;
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = (Controller) getIntent().getSerializableExtra("controller");
+        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
+
         setContentView(R.layout.activity_add_member);
         editTextMemberName = (EditText) findViewById(R.id.editTextMemberName);
         findViewById(R.id.btnAddMember).setOnClickListener(this);
@@ -23,6 +29,6 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        textNewMember.append(MainActivity.controller.addMember(editTextMemberName.getText().toString().trim()));
+        textNewMember.append(controller.addMember(editTextMemberName.getText().toString().trim()));
     }
 }

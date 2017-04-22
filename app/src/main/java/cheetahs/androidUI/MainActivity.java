@@ -9,7 +9,10 @@ import cheetahs.controller.Controller;
 import cheetahs.storage.Storage;
 
 /**
- *
+ * MainActivity is the start screen when the library app loads.
+ * It has buttons that call other activities for the application to add files,
+ * add members, change item status, display member's checked out items, and show
+ * items in either library.
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

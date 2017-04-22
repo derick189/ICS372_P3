@@ -1,6 +1,7 @@
 package cheetahs.androidUI;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -46,6 +47,20 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
     // onClick takes the current view and passes the name entered in the EditText object, and passes
     // it to the MainActivity's controller object to be added
     public void onClick(View view) {
+        // Check if Member Name is empty - don't create a new member from nothing.
+        if (editTextMemberName.getText().toString().matches("")) {
+            // Nothing added in EditText - tell user we need something for name
+            AlertDialog.Builder builder = new AlertDialog.Builder(AddMemberActivity.this);
+            // Message to user
+            builder.setMessage("Name cannot be empty. Enter a name before pushing Add Member.");
+            builder.setTitle("Error");
+            builder.show();
+
+            textNewMember.append("Enter a new member name before clicking Add Member.");
+            return;
+        }
+        // If input in member name EditText, create the new member in Controller and output the new
+        // member's name and new ID to the textNewMember TextView
         textNewMember.append(controller.addMember(editTextMemberName.getText().toString().trim()));
     }
 }

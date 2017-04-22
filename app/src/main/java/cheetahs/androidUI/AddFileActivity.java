@@ -1,5 +1,6 @@
 package cheetahs.androidUI;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import cheetahs.library.Library;
 
 /*
 AddFileActivity runs when the add file button is clicked in MainActivity.
-
+It loads the controller file when created, and gives the user the option to select a
+json or xml file to load into one of the two library options: main or sister.
+It then adds the file's data when add file data is selected.
  */
 public class AddFileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int READ_REQUEST_CODE = 42;
@@ -77,8 +80,15 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                     builder.setMessage("Could not load that file. Make sure the file is still accessible " +
                             "in the location that you chose.");
                     builder.setTitle("Error");
+                    // Make it easier for the user to return to the activity by including a negative button
+                    builder.setNegativeButton("cancel", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface d, int arg1) {
+                            d.cancel();
+                        };
+                    });
                     builder.show();
-                    return;
+                    break;
                 }
                 // URI is null if a file isn't picked - catch it and tell the user to select a file
                 catch (NullPointerException e) {
@@ -88,14 +98,15 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                     builder.setMessage("No file was chosen. Select a file first and try again.");
                     builder.setTitle("Error");
                     builder.show();
-                    return;
+                    break;
                 }
                 if (uri.toString().endsWith("json")) {
                     fileType = "json";
                 } else if (uri.toString().endsWith("xml")) {
                     fileType = "xml";
                 } else {
-                    textAddFileData.append("Incompatible File Type" + "\n");
+                    textAddFileData.append("Incompatible File Type - must be a json or xml file." + "\n");
+                    break;
                 }
                 if (controller.addFileData(inputStream, fileType, lib)) {
                     textAddFileData.append("Your file data has been imported" + "\n");

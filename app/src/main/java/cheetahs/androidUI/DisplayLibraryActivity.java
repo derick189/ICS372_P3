@@ -12,7 +12,12 @@ import cheetahs.controller.Controller;
 import cheetahs.library.Library;
 
 /**
- *
+ * DisplayLibraryActivity lets the user view the status of all items from the main or sister libraries
+ * and select to view only specific types (i.e. CDs, DVDs, magazines, and/or books).
+ * mainRad and sisterRad are the selections for the libraries.
+ * chBoxBooks, chBoxCDs, chBoxDVDs, and chBoxMags allow for viewing one or more of these types.
+ * displayText shows the checked items for the selected library and their status.
+ * controller object retrieves the library item information to be displayed.
  */
 public class DisplayLibraryActivity extends AppCompatActivity implements View.OnClickListener {
     private RadioButton mainRad, sisterRad;
@@ -21,6 +26,8 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
     Controller controller;
 
     @Override
+    // Loads the controller information and creates the screen with the two library button options,
+    // check boxes, and the button to display the library buttons.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = (Controller) getIntent().getSerializableExtra("controller");
@@ -44,17 +51,25 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
     }
 
     @Override
+    // Runs when the display library items is clicked. Gets information on which boxes are checked
+    // via getMask method, and then displays those types for the library radio button selected.
     public void onClick(View view) {
+        // Get which check boxes have been selected
         int mask = getMask();
         Library.Type lib;
+        // get which library was selected so it can be passed to controller method
         if (sisterRad.isChecked())
             lib = Library.Type.SISTER;
         else
             lib = Library.Type.MAIN;
+        // Retrieve the information for the types of items selected at the library
         String libData = controller.displayLibraryItems(mask, lib);
+        // Display the items and their status
         displayText.append(libData + "\n");
     }
 
+    // mask represents the selected checkboxes, and is used in a binary comparison
+    // performed by the controller object to retrieve string representation of the items.
     private int getMask() {
         int fmask = 0;
         if (chBoxBooks.isChecked())

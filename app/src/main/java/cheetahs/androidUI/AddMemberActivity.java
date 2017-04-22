@@ -1,5 +1,6 @@
 package cheetahs.androidUI;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,13 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
             // Message to user
             builder.setMessage("Name cannot be empty. Enter a name before pushing Add Member.");
             builder.setTitle("Error");
+            // Make it easier for the user to return to the activity by including a negative button
+            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface d, int arg1) {
+                    d.cancel();
+                };
+            });
             builder.show();
 
             textNewMember.append("Enter a new member name before clicking Add Member.");

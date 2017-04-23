@@ -54,6 +54,7 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
     // Runs when the display library items is clicked. Gets information on which boxes are checked
     // via getMask method, and then displays those types for the library radio button selected.
     public void onClick(View view) {
+        displayText.setText("");
         // Get which check boxes have been selected
         int mask = getMask();
         Library.Type lib;

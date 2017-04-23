@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import javax.json.stream.JsonParsingException;
+
 import cheetahs.controller.Controller;
 import cheetahs.library.Library;
 
@@ -43,7 +45,8 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
         radioMain = (RadioButton) findViewById(R.id.radioMain);
         radioMain.setChecked(true);
         radioSister = (RadioButton) findViewById(R.id.radioSister);
-        findViewById(R.id.btnAddFileData).setOnClickListener(this);
+        findViewById(R.id.btnAddJsonFileData).setOnClickListener(this);
+        findViewById(R.id.btnAddXmlFileData).setOnClickListener(this);
         textAddFileData = (TextView) findViewById(R.id.textAddFileData);
         textAddFileData.setMovementMethod(new ScrollingMovementMethod());
     }
@@ -53,69 +56,75 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnFindFile:
+                textFindFile.setText("");
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(intent, READ_REQUEST_CODE);
                 break;
-            case R.id.btnAddFileData:
-                Library.Type lib;
-                InputStream inputStream = null;
-                String fileType = null;
-
-                if (radioSister.isChecked()) {
-                    lib = Library.Type.SISTER;
-                } else {
-                    lib = Library.Type.MAIN;
-                }
-                try {
-                    inputStream = getContentResolver().openInputStream(uri);
-                }
-                // Issue with using the file selected - tell user to retry and make sure file is
-                // still available (in case they selected external and it got disconnected, or it
-                // was mis-entered?
-                catch (FileNotFoundException e) {
-                    // Create an alert stating no URI was chosen
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFileActivity.this);
-                    // 2. Chain together various setter methods to set the dialog characteristics
-                    builder.setMessage("Could not load that file. Make sure the file is still accessible " +
-                            "in the location that you chose.");
-                    builder.setTitle("Error");
-                    // Make it easier for the user to return to the activity by including a negative button
-                    builder.setNegativeButton("cancel", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface d, int arg1) {
-                            d.cancel();
-                        };
-                    });
-                    builder.show();
-                    break;
-                }
-                // URI is null if a file isn't picked - catch it and tell the user to select a file
-                catch (NullPointerException e) {
-                    // Create an alert stating no URI was chosen
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFileActivity.this);
-                    // 2. Chain together various setter methods to set the dialog characteristics
-                    builder.setMessage("No file was chosen. Select a file first and try again.");
-                    builder.setTitle("Error");
-                    builder.show();
-                    break;
-                }
-                if (uri.toString().endsWith("json")) {
-                    fileType = "json";
-                } else if (uri.toString().endsWith("xml")) {
-                    fileType = "xml";
-                } else {
-                    textAddFileData.append("Incompatible File Type - must be a json or xml file." + "\n");
-                    break;
-                }
-                if (controller.addFileData(inputStream, fileType, lib)) {
-                    textAddFileData.append("Your file data has been imported" + "\n");
-                } else {
-                    textAddFileData.append("File data add failed." + "\n");
-                }
+            case R.id.btnAddJsonFileData:
+                addData("json");
+                break;
+            case R.id.btnAddXmlFileData:
+                addData("xml");
+                break;
         }
-        String libData = controller.displayLibraryItems(15, Library.Type.MAIN);
-        textAddFileData.append(libData + "\n");
+    }
+
+    private void addData(String fileType) {
+        Library.Type lib;
+        InputStream inputStream = null;
+        if (radioSister.isChecked()) {
+            lib = Library.Type.SISTER;
+        } else {
+            lib = Library.Type.MAIN;
+        }
+        try {
+            inputStream = getContentResolver().openInputStream(uri);
+        }
+        // Issue with using the file selected - tell user to retry and make sure file is
+        // still available (in case they selected external and it got disconnected, or it
+        // was mis-entered)
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            // Create an alert stating no URI was chosen
+            AlertDialog.Builder builder = new AlertDialog.Builder(AddFileActivity.this);
+            // 2. Chain together various setter methods to set the dialog characteristics
+            builder.setMessage("Could not load that file. Make sure the file is still accessible " +
+                    "in the location that you chose.");
+            builder.setTitle("Error");
+            // Make it easier for the user to return to the activity by including a negative button
+            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface d, int arg1) {
+                    d.cancel();
+                }
+
+                ;
+            });
+            builder.show();
+            return;
+        }
+        // URI is null if a file isn't picked - catch it and tell the user to select a file
+        catch (NullPointerException e) {
+            e.printStackTrace();
+            // Create an alert stating no URI was chosen
+            AlertDialog.Builder builder = new AlertDialog.Builder(AddFileActivity.this);
+            // 2. Chain together various setter methods to set the dialog characteristics
+            builder.setMessage("No file was chosen. Select a file first and try again.");
+            builder.setTitle("Error");
+            builder.show();
+            return;
+        }
+        try {
+            if (controller.addFileData(inputStream, fileType, lib)) {
+                textAddFileData.append("Your file data has been imported" + "\n");
+            } else {
+                textAddFileData.append("File data add failed." + "\n");
+            }
+        } catch (JsonParsingException e) {
+            e.printStackTrace();
+            textAddFileData.append("Incorrect file type." + "\n");
+        }
     }
 
     @Override
@@ -134,9 +143,6 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
             if (resultData != null) {
                 uri = resultData.getData();
                 textFindFile.append("File used: \n" + uri.toString() + "\n");
-                if (!uri.toString().endsWith("json") && !uri.toString().endsWith("xml")) {
-                    textFindFile.append("Incompatible File Type" + "\n");
-                }
             }
         }
     }

@@ -26,8 +26,10 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
     Controller controller;
 
     @Override
-    // Loads the controller information and creates the screen with the two library button options,
+    /* Loads the controller information and creates the screen with the two library button options,
     // check boxes, and the button to display the library buttons.
+    @param savedInstanceState: loads a previous state if it was stored.
+    */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = (Controller) getIntent().getSerializableExtra("controller");

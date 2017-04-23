@@ -22,6 +22,9 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
     Controller controller;
 
     @Override
+    /*
+    @param savedInstanceState: loads a previous state if it was stored.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = (Controller) getIntent().getSerializableExtra("controller");

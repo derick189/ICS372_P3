@@ -10,7 +10,11 @@ import android.widget.TextView;
 import cheetahs.controller.Controller;
 
 /**
- *
+ * MembersItemsActivity lets the user enter a library card #, and then displays any items
+ * that are currently associated with the number.
+ * editTextMemberItems allows input for the card #.
+ * textMemberItems displays the return items to the user.
+ * controller contains the member and item information.
  */
 public class MembersItemsActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextMemberItems;
@@ -18,6 +22,10 @@ public class MembersItemsActivity extends AppCompatActivity implements View.OnCl
     Controller controller;
 
     @Override
+    /*
+    Loads the controller object, displays the edittext box, and the button to display the items.
+    @param savedInstanceState: loads a previous state if it was stored.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = (Controller) getIntent().getSerializableExtra("controller");

@@ -36,6 +36,7 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
         controller = (Controller) getIntent().getSerializableExtra("controller");
         controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
+        // Sets up the GUI
         setContentView(R.layout.activity_display_library);
         mainRad = (RadioButton) findViewById(R.id.radioMain);
         mainRad.setChecked(true);

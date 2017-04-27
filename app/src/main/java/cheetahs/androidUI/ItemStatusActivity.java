@@ -31,6 +31,7 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
         controller = (Controller) getIntent().getSerializableExtra("controller");
         controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
+        // Sets up the GUI
         setContentView(R.layout.activity_item_status);
         rbMain = (RadioButton) findViewById(R.id.rbMain);
         rbMain.setChecked(true);
@@ -50,13 +51,20 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    // When Change Item Status is clicked, it checks which library is selected, and then
+    // tries to process the status change for the item ID in the item text box for the view.
     public void onClick(View view) {
+        // Reference to the library the user wants to work with, and is passed to the
+        // checkIn or checkOut methods of the controller
         Library.Type library;
         if (rbSister.isChecked()) {
             library = Library.Type.SISTER;
         } else {
             library = Library.Type.MAIN;
         }
+        // Checks which radio button is currently selected, and calls the appropriate method in
+        // controller to update the item status. Also returns a string to print whether it was
+        // successful or failed.
         if (rbCheckStatus.isChecked()) {
             textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.CHECK_STATUS, library));
         } else if (rbCheckedIn.isChecked()) {

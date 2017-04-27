@@ -24,10 +24,16 @@ import cheetahs.storage.Storage;
  * performs related processing.
  */
 public class FragmentCheckInOut extends Fragment implements View.OnClickListener {
+    // controller handles updating the objects in the libraries using the controller's
+    // checkIn and checkOut methods.
     Controller controller = new Controller();
     View view;
+    // editTextCardNum allows input of the user's card number, and editTextItemId allows the user
+    // to pick which item they want to check in or out.
     private EditText editTextCardNum, editTextItemId;
+    // radioMain and radioSister used to pick which library the book is checked in or out from.
     private RadioButton radioMain, radioSister;
+    // textCheckInOut displays messages to the user.
     private TextView textCheckInOut;
 
     /* Loads the controller object and then creates the view to include input for a card number,
@@ -66,6 +72,8 @@ public class FragmentCheckInOut extends Fragment implements View.OnClickListener
      */
     @Override
     public void onClick(View view) {
+        // Reference to the library the user wants to work with, and is passed to the
+        // checkIn or checkOut methods of the controller
         Library.Type lib;
         // set library type based on which radio button is selected
         if (radioSister.isChecked()) {
@@ -76,9 +84,13 @@ public class FragmentCheckInOut extends Fragment implements View.OnClickListener
         // call appropriate controller method based on whether the user wants to do a check in or check out
         switch (view.getId()) {
             case R.id.btnCheckOut:
+                // Will display a String with item ID, item status, and library card used if successful
+                // Or an error message if it is unsuccessful
                 textCheckInOut.append(controller.checkOut(Integer.parseInt(editTextCardNum.getText().toString().trim()), editTextItemId.getText().toString().trim(), lib));
                 break;
             case R.id.btnCheckIn:
+                // Will return and display a String with item ID and  item status if successful
+                // Or an error message if it is unsuccessful
                 textCheckInOut.append(controller.checkIn(editTextItemId.getText().toString().trim(), lib));
                 break;
         }

@@ -16,13 +16,22 @@ import cheetahs.library.Library;
 import cheetahs.storage.Storage;
 
 /**
- *
+ * ItemStatusActivity is reached via the "ItemStatus" button in the MainActivity.
+ * It takes user input for a given library, a given library item ID, and then shows either the
+ * status, or attempts to change the status, based on one of 7 radio button options.
  */
 public class FragmentItemStatus extends Fragment implements View.OnClickListener {
+    // controller handles updating the item's status in the libraries using the controller's
+    // changeItemStatus method.
     Controller controller = new Controller();
     View view;
+    // editTextItemId takes user input for the item they want to check or change the status for.
     private EditText editTextItemId;
+    // rbMain and rbSister are radio buttons to specify which library.
+    // The other rb radio buttons are for viewing the status (rbCheckStatus) or changing the item's
+    // status (e.g. checking it in, flagging it as missing, etc.)
     private RadioButton rbMain, rbSister, rbCheckStatus, rbCheckedIn, rbMissing, rbOverdue, rbReference, rbRemoved, rbShelving;
+    // textItemStatus displays success or failure output to the user.
     private TextView textItemStatus;
 
     /*
@@ -56,14 +65,21 @@ public class FragmentItemStatus extends Fragment implements View.OnClickListener
         controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
+    // When Change Item Status is clicked, it checks which library is selected, and then
+    // tries to process the status change for the item ID in the item text box for the view.
     @Override
     public void onClick(View view) {
+        // Reference to the library the user wants to work with, and is passed to the
+        // checkIn or checkOut methods of the controller
         Library.Type library;
         if (rbSister.isChecked()) {
             library = Library.Type.SISTER;
         } else {
             library = Library.Type.MAIN;
         }
+        // Checks which radio button is currently selected, and calls the appropriate method in
+        // controller to update the item status. Also returns a string to print whether it was
+        // successful or failed.
         if (rbCheckStatus.isChecked()) {
             textItemStatus.append(controller.changeItemStatus(editTextItemId.getText().toString().trim(), Item.Status.CHECK_STATUS, library));
         } else if (rbCheckedIn.isChecked()) {

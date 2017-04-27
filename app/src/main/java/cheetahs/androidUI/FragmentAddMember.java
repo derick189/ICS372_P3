@@ -27,6 +27,8 @@ public class FragmentAddMember extends Fragment implements View.OnClickListener 
     private EditText editTextMemberName;
     // TextView object to display output to user
     private TextView textNewMember;
+    // Controller object that handles adding the member to the MemberList
+    Controller controller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

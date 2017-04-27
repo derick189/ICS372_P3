@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import cheetahs.controller.Controller;
 import cheetahs.library.Library;
+import cheetahs.storage.Storage;
 
 /**
  * DisplayLibraryActivity lets the user view the status of all items from the main or sister libraries
@@ -23,7 +24,7 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
     private RadioButton mainRad, sisterRad;
     private CheckBox chBoxBooks, chBoxCDs, chBoxDVDs, chBoxMags;
     TextView displayText;
-    Controller controller;
+    Controller controller = new Controller();
 
     @Override
     /* Loads the controller information and creates the screen with the two library button options,
@@ -32,8 +33,6 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = (Controller) getIntent().getSerializableExtra("controller");
-        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
         setContentView(R.layout.activity_display_library);
         mainRad = (RadioButton) findViewById(R.id.radioMain);
@@ -50,6 +49,12 @@ public class DisplayLibraryActivity extends AppCompatActivity implements View.On
         findViewById(R.id.btnDisplayLibrary).setOnClickListener(this);
         displayText = (TextView) findViewById(R.id.textDisplayLibrary);
         displayText.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override

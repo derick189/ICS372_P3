@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import cheetahs.controller.Controller;
 import cheetahs.library.Library;
+import cheetahs.storage.Storage;
 
 /**
  * CheckInOutActivity provides user input for checking specific items in or out from the libraries.
@@ -24,7 +25,7 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
     private EditText editTextCardNum, editTextItemId;
     private RadioButton radioMain, radioSister;
     private TextView textCheckInOut;
-    Controller controller;
+    Controller controller = new Controller();
 
     @Override
     /* Loads the controller object and then creates the view to include input for a card number,
@@ -34,8 +35,6 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = (Controller) getIntent().getSerializableExtra("controller");
-        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
         setContentView(R.layout.activity_check_in_out);
         editTextCardNum = (EditText) findViewById(R.id.editTextCardNum);
@@ -48,8 +47,12 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
         textCheckInOut = (TextView) findViewById(R.id.textCheckInOut);
         textCheckInOut.setMovementMethod(new ScrollingMovementMethod());
     }
-
     @Override
+    protected void onStart() {
+        super.onStart();
+        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
+    }
+
     /*
     onClick checks whether the user wants to work with the sister or main library, then whether they're
     trying to use the check out or check in button. The controller handles validation of the card
@@ -57,6 +60,7 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
     to the TextView.
     @param view: either the check out or check in button that was clicked
      */
+    @Override
     public void onClick(View view) {
         Library.Type lib;
         // set library type based on which radio button is selected

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import cheetahs.controller.Controller;
 import cheetahs.items.Item;
 import cheetahs.library.Library;
+import cheetahs.storage.Storage;
 
 /**
  *
@@ -19,16 +20,14 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
     private EditText editTextItemId;
     private RadioButton rbMain, rbSister, rbCheckStatus, rbCheckedIn, rbMissing, rbOverdue, rbReference, rbRemoved, rbShelving;
     private TextView textItemStatus;
-    Controller controller;
+    Controller controller = new Controller();
 
-    @Override
     /*
     @param savedInstanceState: loads a previous state if it was stored.
      */
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = (Controller) getIntent().getSerializableExtra("controller");
-        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
         setContentView(R.layout.activity_item_status);
         rbMain = (RadioButton) findViewById(R.id.rbMain);
@@ -46,6 +45,12 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.btnItemStatus).setOnClickListener(this);
         textItemStatus = (TextView) findViewById(R.id.textItemStatus);
         textItemStatus.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override

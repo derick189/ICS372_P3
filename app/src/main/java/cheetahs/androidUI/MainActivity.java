@@ -43,32 +43,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.addFileData:
                 intent = new Intent(this, AddFileActivity.class);
-                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.addMember:
                 intent = new Intent(this, AddMemberActivity.class);
-                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.checkInOut:
                 intent = new Intent(this, CheckInOutActivity.class);
-                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.itemStatus:
                 intent = new Intent(this, ItemStatusActivity.class);
-                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.membersItems:
                 intent = new Intent(this, MembersItemsActivity.class);
-                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
             case R.id.displayLibrary:
                 intent = new Intent(this, DisplayLibraryActivity.class);
-                intent.putExtra("controller", controller);
                 startActivity(intent);
                 break;
         }

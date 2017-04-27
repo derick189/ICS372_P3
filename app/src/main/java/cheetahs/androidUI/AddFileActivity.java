@@ -18,6 +18,7 @@ import javax.json.stream.JsonParsingException;
 
 import cheetahs.controller.Controller;
 import cheetahs.library.Library;
+import cheetahs.storage.Storage;
 
 /*
 AddFileActivity runs when the add file button is clicked in MainActivity.
@@ -30,13 +31,11 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
     private Uri uri;
     private TextView textFindFile, textAddFileData;
     private RadioButton radioMain, radioSister;
-    Controller controller;
+    Controller controller = new Controller();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = (Controller) getIntent().getSerializableExtra("controller");
-        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
         setContentView(R.layout.activity_add_file);
         findViewById(R.id.btnFindFile).setOnClickListener(this);
@@ -49,6 +48,12 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.btnAddXmlFileData).setOnClickListener(this);
         textAddFileData = (TextView) findViewById(R.id.textAddFileData);
         textAddFileData.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override
@@ -68,6 +73,8 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                 addData("xml");
                 break;
         }
+        String libData = controller.displayLibraryItems(15, Library.Type.MAIN);
+        textAddFileData.append(libData + "\n");
     }
 
     private void addData(String fileType) {

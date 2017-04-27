@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import cheetahs.controller.Controller;
+import cheetahs.storage.Storage;
 
 /**
  * MembersItemsActivity lets the user enter a library card #, and then displays any items
@@ -19,7 +20,7 @@ import cheetahs.controller.Controller;
 public class MembersItemsActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextMemberItems;
     private TextView textMemberItems;
-    Controller controller;
+    Controller controller = new Controller();
 
     @Override
     /*
@@ -28,14 +29,18 @@ public class MembersItemsActivity extends AppCompatActivity implements View.OnCl
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = (Controller) getIntent().getSerializableExtra("controller");
-        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
         setContentView(R.layout.activity_members_items);
         editTextMemberItems = (EditText) findViewById(R.id.editTextMemberItems);
         findViewById(R.id.btnAddMember).setOnClickListener(this);
         textMemberItems = (TextView) findViewById(R.id.textMemberItems);
         textMemberItems.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override

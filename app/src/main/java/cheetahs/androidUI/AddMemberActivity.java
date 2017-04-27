@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import cheetahs.controller.Controller;
+import cheetahs.storage.Storage;
 
 /**
  * AddMemberActivity allows the user to have a new library card # generated for a new library user.
@@ -22,15 +23,13 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
     private EditText editTextMemberName;
     // TextView object to display output to user
     private TextView textNewMember;
-    Controller controller;
+    Controller controller = new Controller();
 
     @Override
     // onCreate restores the previous state if there had been one for the activity.
     protected void onCreate(Bundle savedInstanceState) {
         // calls Activity's onCreate method
         super.onCreate(savedInstanceState);
-        controller = (Controller) getIntent().getSerializableExtra("controller");
-        controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
         // Load the layout for the activity_add_member from the XML (\res\layout\activity_add_member)
         setContentView(R.layout.activity_add_member);
@@ -45,6 +44,12 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
+    }
+
+    @Override
     // onClick takes the current view and passes the name entered in the EditText object, and passes
     // it to the MainActivity's controller object to be added
     public void onClick(View view) {
@@ -56,11 +61,13 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
             builder.setMessage("Name cannot be empty. Enter a name before pushing Add Member.");
             builder.setTitle("Error");
             // Make it easier for the user to return to the activity by including a negative button
-            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener(){
+            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface d, int arg1) {
                     d.cancel();
-                };
+                }
+
+                ;
             });
             builder.show();
 

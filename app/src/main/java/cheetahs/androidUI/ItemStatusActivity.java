@@ -26,6 +26,7 @@ public class ItemStatusActivity extends AppCompatActivity implements View.OnClic
     @param savedInstanceState: loads a previous state if it was stored.
      */
     protected void onCreate(Bundle savedInstanceState) {
+        // calls Activity's onCreate method
         super.onCreate(savedInstanceState);
         controller = (Controller) getIntent().getSerializableExtra("controller");
         controller.setSavePath(getExternalFilesDir(null).getPath() + "/");

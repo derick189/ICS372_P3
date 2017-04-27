@@ -21,9 +21,15 @@ import cheetahs.library.Library;
  * performs related processing.
  */
 public class CheckInOutActivity extends AppCompatActivity implements View.OnClickListener {
+    // editTextCardNum allows input of the user's card number, and editTextItemId allows the user
+    // to pick which item they want to check in or out.
     private EditText editTextCardNum, editTextItemId;
+    // radioMain and radioSister used to pick which library the book is checked in or out from.
     private RadioButton radioMain, radioSister;
+    // textCheckInOut displays messages to the user.
     private TextView textCheckInOut;
+    // controller handles updating the objects in the libraries using the controller's
+    // checkIn and checkOut methods.
     Controller controller;
 
     @Override
@@ -33,10 +39,12 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
      @param savedInstanceState: loads a previous state if it was stored.
     */
     protected void onCreate(Bundle savedInstanceState) {
+        // calls Activity's onCreate method
         super.onCreate(savedInstanceState);
         controller = (Controller) getIntent().getSerializableExtra("controller");
         controller.setSavePath(getExternalFilesDir(null).getPath() + "/");
 
+        // Sets up the GUI
         setContentView(R.layout.activity_check_in_out);
         editTextCardNum = (EditText) findViewById(R.id.editTextCardNum);
         editTextItemId = (EditText) findViewById(R.id.editTextItemId);
@@ -58,6 +66,8 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
     @param view: either the check out or check in button that was clicked
      */
     public void onClick(View view) {
+        // Reference to the library the user wants to work with, and is passed to the
+        // checkIn or checkOut methods of the controller
         Library.Type lib;
         // set library type based on which radio button is selected
         if (radioSister.isChecked()) {
@@ -68,9 +78,13 @@ public class CheckInOutActivity extends AppCompatActivity implements View.OnClic
         // call appropriate controller method based on whether the user wants to do a check in or check out
         switch (view.getId()) {
             case R.id.btnCheckOut:
+                // Will display a String with item ID, item status, and library card used if successful
+                // Or an error message if it is unsuccessful
                 textCheckInOut.append(controller.checkOut(Integer.parseInt(editTextCardNum.getText().toString().trim()), editTextItemId.getText().toString().trim(), lib));
                 break;
             case R.id.btnCheckIn:
+                // Will return and display a String with item ID and  item status if successful
+                // Or an error message if it is unsuccessful
                 textCheckInOut.append(controller.checkIn(editTextItemId.getText().toString().trim(), lib));
                 break;
         }

@@ -22,6 +22,7 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
     private EditText editTextMemberName;
     // TextView object to display output to user
     private TextView textNewMember;
+    // Controller object that handles adding the member to the MemberList
     Controller controller;
 
     @Override

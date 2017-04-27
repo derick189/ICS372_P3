@@ -60,8 +60,8 @@ public class FragmentAddFile extends Fragment implements View.OnClickListener {
         controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
-    @Override
     // Actions for when the Find File and Add File Data buttons are clicked.
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnFindFile:
@@ -77,8 +77,6 @@ public class FragmentAddFile extends Fragment implements View.OnClickListener {
                 addData("xml", view);
                 break;
         }
-        String libData = controller.displayLibraryItems(15, Library.Type.MAIN);
-        textAddFileData.append(libData + "\n");
     }
 
     private void addData(String fileType, View view) {

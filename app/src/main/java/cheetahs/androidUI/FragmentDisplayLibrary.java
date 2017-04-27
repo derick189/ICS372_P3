@@ -61,9 +61,9 @@ public class FragmentDisplayLibrary extends Fragment implements View.OnClickList
         controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
-    @Override
     // Runs when the display library items is clicked. Gets information on which boxes are checked
     // via getMask method, and then displays those types for the library radio button selected.
+    @Override
     public void onClick(View view) {
         displayText.setText("");
         // Get which check boxes have been selected

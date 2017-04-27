@@ -13,12 +13,21 @@ import cheetahs.items.Item;
 import cheetahs.library.Library;
 
 /**
- *
+ * ItemStatusActivity is reached via the "ItemStatus" button in the MainActivity.
+ * It takes user input for a given library, a given library item ID, and then shows either the
+ * status, or attempts to change the status, based on one of 7 radio button options.
  */
 public class ItemStatusActivity extends AppCompatActivity implements View.OnClickListener {
+    // editTextItemId takes user input for the item they want to check or change the status for.
     private EditText editTextItemId;
+    // rbMain and rbSister are radio buttons to specify which library.
+    // The other rb radio buttons are for viewing the status (rbCheckStatus) or changing the item's
+    // status (e.g. checking it in, flagging it as missing, etc.)
     private RadioButton rbMain, rbSister, rbCheckStatus, rbCheckedIn, rbMissing, rbOverdue, rbReference, rbRemoved, rbShelving;
+    // textItemStatus displays success or failure output to the user.
     private TextView textItemStatus;
+    // controller handles updating the item's status in the libraries using the controller's
+    // changeItemStatus method.
     Controller controller;
 
     @Override

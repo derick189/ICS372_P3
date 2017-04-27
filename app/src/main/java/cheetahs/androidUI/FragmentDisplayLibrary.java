@@ -1,9 +1,11 @@
 package cheetahs.androidUI;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -13,48 +15,50 @@ import cheetahs.library.Library;
 import cheetahs.storage.Storage;
 
 /**
- * DisplayLibraryActivity lets the user view the status of all items from the main or sister libraries
+ * FragmentDisplayLibrary lets the user view the status of all items from the main or sister libraries
  * and select to view only specific types (i.e. CDs, DVDs, magazines, and/or books).
  * mainRad and sisterRad are the selections for the libraries.
  * chBoxBooks, chBoxCDs, chBoxDVDs, and chBoxMags allow for viewing one or more of these types.
  * displayText shows the checked items for the selected library and their status.
  * controller object retrieves the library item information to be displayed.
  */
-public class DisplayLibraryActivity extends AppCompatActivity implements View.OnClickListener {
-    private RadioButton mainRad, sisterRad;
-    private CheckBox chBoxBooks, chBoxCDs, chBoxDVDs, chBoxMags;
+public class FragmentDisplayLibrary extends Fragment implements View.OnClickListener {
     TextView displayText;
     Controller controller = new Controller();
+    View view;
+    private RadioButton mainRad, sisterRad;
+    private CheckBox chBoxBooks, chBoxCDs, chBoxDVDs, chBoxMags;
 
-    @Override
     /* Loads the controller information and creates the screen with the two library button options,
     // check boxes, and the button to display the library buttons.
     @param savedInstanceState: loads a previous state if it was stored.
     */
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_display_library, container, false);
 
-        setContentView(R.layout.activity_display_library);
-        mainRad = (RadioButton) findViewById(R.id.radioMain);
+        mainRad = (RadioButton) view.findViewById(R.id.radioMain);
         mainRad.setChecked(true);
-        sisterRad = (RadioButton) findViewById(R.id.radioSister);
-        chBoxBooks = (CheckBox) findViewById(R.id.chBoxBooks);
+        sisterRad = (RadioButton) view.findViewById(R.id.radioSister);
+        chBoxBooks = (CheckBox) view.findViewById(R.id.chBoxBooks);
         chBoxBooks.setChecked(true);
-        chBoxCDs = (CheckBox) findViewById(R.id.chBoxCDs);
+        chBoxCDs = (CheckBox) view.findViewById(R.id.chBoxCDs);
         chBoxCDs.setChecked(true);
-        chBoxDVDs = (CheckBox) findViewById(R.id.chBoxDVDs);
+        chBoxDVDs = (CheckBox) view.findViewById(R.id.chBoxDVDs);
         chBoxDVDs.setChecked(true);
-        chBoxMags = (CheckBox) findViewById(R.id.chBoxMags);
+        chBoxMags = (CheckBox) view.findViewById(R.id.chBoxMags);
         chBoxMags.setChecked(true);
-        findViewById(R.id.btnDisplayLibrary).setOnClickListener(this);
-        displayText = (TextView) findViewById(R.id.textDisplayLibrary);
+        view.findViewById(R.id.btnDisplayLibrary).setOnClickListener(this);
+        displayText = (TextView) view.findViewById(R.id.textDisplayLibrary);
         displayText.setMovementMethod(new ScrollingMovementMethod());
+
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
+        controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override

@@ -4,10 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -21,39 +24,40 @@ import cheetahs.library.Library;
 import cheetahs.storage.Storage;
 
 /*
-AddFileActivity runs when the add file button is clicked in MainActivity.
+FragmentAddFile runs when the add file button is clicked in ActivityMain.
 It loads the controller file when created, and gives the user the option to select a
 json or xml file to load into one of the two library options: main or sister.
 It then adds the file's data when add file data is selected.
  */
-public class AddFileActivity extends AppCompatActivity implements View.OnClickListener {
+public class FragmentAddFile extends Fragment implements View.OnClickListener {
     private static final int READ_REQUEST_CODE = 42;
+    Controller controller = new Controller();
+    View view;
     private Uri uri;
     private TextView textFindFile, textAddFileData;
     private RadioButton radioMain, radioSister;
-    Controller controller = new Controller();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_add_file, container, false);
 
-        setContentView(R.layout.activity_add_file);
-        findViewById(R.id.btnFindFile).setOnClickListener(this);
-        textFindFile = (TextView) findViewById(R.id.textFindFile);
+        view.findViewById(R.id.btnFindFile).setOnClickListener(this);
+        textFindFile = (TextView) view.findViewById(R.id.textFindFile);
         textFindFile.setMovementMethod(new ScrollingMovementMethod());
-        radioMain = (RadioButton) findViewById(R.id.radioMain);
+        radioMain = (RadioButton) view.findViewById(R.id.radioMain);
         radioMain.setChecked(true);
-        radioSister = (RadioButton) findViewById(R.id.radioSister);
-        findViewById(R.id.btnAddJsonFileData).setOnClickListener(this);
-        findViewById(R.id.btnAddXmlFileData).setOnClickListener(this);
-        textAddFileData = (TextView) findViewById(R.id.textAddFileData);
+        radioSister = (RadioButton) view.findViewById(R.id.radioSister);
+        view.findViewById(R.id.btnAddJsonFileData).setOnClickListener(this);
+        view.findViewById(R.id.btnAddXmlFileData).setOnClickListener(this);
+        textAddFileData = (TextView) view.findViewById(R.id.textAddFileData);
         textAddFileData.setMovementMethod(new ScrollingMovementMethod());
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
+        controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override
@@ -67,17 +71,17 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                 startActivityForResult(intent, READ_REQUEST_CODE);
                 break;
             case R.id.btnAddJsonFileData:
-                addData("json");
+                addData("json", view);
                 break;
             case R.id.btnAddXmlFileData:
-                addData("xml");
+                addData("xml", view);
                 break;
         }
         String libData = controller.displayLibraryItems(15, Library.Type.MAIN);
         textAddFileData.append(libData + "\n");
     }
 
-    private void addData(String fileType) {
+    private void addData(String fileType, View view) {
         Library.Type lib;
         InputStream inputStream = null;
         if (radioSister.isChecked()) {
@@ -86,7 +90,7 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
             lib = Library.Type.MAIN;
         }
         try {
-            inputStream = getContentResolver().openInputStream(uri);
+            inputStream = getActivity().getContentResolver().openInputStream(uri);
         }
         // Issue with using the file selected - tell user to retry and make sure file is
         // still available (in case they selected external and it got disconnected, or it
@@ -94,7 +98,7 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
         catch (FileNotFoundException e) {
             e.printStackTrace();
             // Create an alert stating no URI was chosen
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddFileActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             // 2. Chain together various setter methods to set the dialog characteristics
             builder.setMessage("Could not load that file. Make sure the file is still accessible " +
                     "in the location that you chose.");
@@ -106,7 +110,6 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                     d.cancel();
                 }
 
-                ;
             });
             builder.show();
             return;
@@ -115,7 +118,7 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
         catch (NullPointerException e) {
             e.printStackTrace();
             // Create an alert stating no URI was chosen
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddFileActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             // 2. Chain together various setter methods to set the dialog characteristics
             builder.setMessage("No file was chosen. Select a file first and try again.");
             builder.setTitle("Error");
@@ -134,8 +137,8 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
     // onActivityResult runs when Find File is clicked.
+    @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="cheetahs.androidUI.FragmentCheckInOut">
 
-    <Button
-        android:id="@+id/btnFindFile"
-        style="@style/Widget.AppCompat.Button.Colored"
+    <EditText
+        android:id="@+id/editTextCardNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/findFile" />
+        android:hint="@string/memberNumber" />
 
-    <TextView
-        android:id="@+id/textFindFile"
+    <EditText
+        android:id="@+id/editTextItemId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="@string/itemId" />
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -36,23 +38,26 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/btnAddJsonFileData"
+        android:id="@+id/btnCheckOut"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Json File Data" />
+        android:text="@string/checkOut" />
 
     <Button
-        android:id="@+id/btnAddXmlFileData"
+        android:id="@+id/btnCheckIn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add XML File Data" />
+        android:text="@string/checkIn" />
+
 
     <TextView
-        android:id="@+id/textAddFileData"
-        android:layout_width="wrap_content"
+        android:id="@+id/textCheckInOut"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom" />
+        android:gravity="bottom"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="23dp" />
 
 </LinearLayout>

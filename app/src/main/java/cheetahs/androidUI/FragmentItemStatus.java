@@ -1,9 +1,11 @@
 package cheetahs.androidUI;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -16,41 +18,42 @@ import cheetahs.storage.Storage;
 /**
  *
  */
-public class ItemStatusActivity extends AppCompatActivity implements View.OnClickListener {
+public class FragmentItemStatus extends Fragment implements View.OnClickListener {
+    Controller controller = new Controller();
+    View view;
     private EditText editTextItemId;
     private RadioButton rbMain, rbSister, rbCheckStatus, rbCheckedIn, rbMissing, rbOverdue, rbReference, rbRemoved, rbShelving;
     private TextView textItemStatus;
-    Controller controller = new Controller();
 
     /*
     @param savedInstanceState: loads a previous state if it was stored.
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_item_status, container, false);
 
-        setContentView(R.layout.activity_item_status);
-        rbMain = (RadioButton) findViewById(R.id.rbMain);
+        rbMain = (RadioButton) view.findViewById(R.id.rbMain);
         rbMain.setChecked(true);
-        rbSister = (RadioButton) findViewById(R.id.rbSister);
-        editTextItemId = (EditText) findViewById(R.id.editTextItemId);
-        rbCheckStatus = (RadioButton) findViewById(R.id.rbCheckStatus);
+        rbSister = (RadioButton) view.findViewById(R.id.rbSister);
+        editTextItemId = (EditText) view.findViewById(R.id.editTextItemId);
+        rbCheckStatus = (RadioButton) view.findViewById(R.id.rbCheckStatus);
         rbCheckStatus.setChecked(true);
-        rbCheckedIn = (RadioButton) findViewById(R.id.rbCheckedIn);
-        rbMissing = (RadioButton) findViewById(R.id.rbMissing);
-        rbOverdue = (RadioButton) findViewById(R.id.rbOverdue);
-        rbReference = (RadioButton) findViewById(R.id.rbReference);
-        rbRemoved = (RadioButton) findViewById(R.id.rbRemoved);
-        rbShelving = (RadioButton) findViewById(R.id.rbShelving);
-        findViewById(R.id.btnItemStatus).setOnClickListener(this);
-        textItemStatus = (TextView) findViewById(R.id.textItemStatus);
+        rbCheckedIn = (RadioButton) view.findViewById(R.id.rbCheckedIn);
+        rbMissing = (RadioButton) view.findViewById(R.id.rbMissing);
+        rbOverdue = (RadioButton) view.findViewById(R.id.rbOverdue);
+        rbReference = (RadioButton) view.findViewById(R.id.rbReference);
+        rbRemoved = (RadioButton) view.findViewById(R.id.rbRemoved);
+        rbShelving = (RadioButton) view.findViewById(R.id.rbShelving);
+        view.findViewById(R.id.btnItemStatus).setOnClickListener(this);
+        textItemStatus = (TextView) view.findViewById(R.id.textItemStatus);
         textItemStatus.setMovementMethod(new ScrollingMovementMethod());
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
+        controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
     @Override

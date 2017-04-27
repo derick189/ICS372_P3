@@ -1,9 +1,11 @@
 package cheetahs.androidUI;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -13,7 +15,7 @@ import cheetahs.library.Library;
 import cheetahs.storage.Storage;
 
 /**
- * CheckInOutActivity provides user input for checking specific items in or out from the libraries.
+ * FragmentCheckInOut provides user input for checking specific items in or out from the libraries.
  * editTextCardNum: input for the card # that will be associated with check-in or check-out
  * editTextItemID: input for the item's ID for check-in or check-out
  * radioMain and @radioSister: two radio button options associated with the items
@@ -21,36 +23,38 @@ import cheetahs.storage.Storage;
  * controller: controller object that holds library, member, and library item information and
  * performs related processing.
  */
-public class CheckInOutActivity extends AppCompatActivity implements View.OnClickListener {
+public class FragmentCheckInOut extends Fragment implements View.OnClickListener {
+    Controller controller = new Controller();
+    View view;
     private EditText editTextCardNum, editTextItemId;
     private RadioButton radioMain, radioSister;
     private TextView textCheckInOut;
-    Controller controller = new Controller();
 
-    @Override
     /* Loads the controller object and then creates the view to include input for a card number,
     / item id, two radio button selections for the libraries options, and the buttons for check in
      and check out.
      @param savedInstanceState: loads a previous state if it was stored.
     */
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_check_in_out);
-        editTextCardNum = (EditText) findViewById(R.id.editTextCardNum);
-        editTextItemId = (EditText) findViewById(R.id.editTextItemId);
-        radioMain = (RadioButton) findViewById(R.id.radioMain);
-        radioMain.setChecked(true);
-        radioSister = (RadioButton) findViewById(R.id.radioSister);
-        findViewById(R.id.btnCheckOut).setOnClickListener(this);
-        findViewById(R.id.btnCheckIn).setOnClickListener(this);
-        textCheckInOut = (TextView) findViewById(R.id.textCheckInOut);
-        textCheckInOut.setMovementMethod(new ScrollingMovementMethod());
-    }
     @Override
-    protected void onStart() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_check_in_out, container, false);
+
+        editTextCardNum = (EditText) view.findViewById(R.id.editTextCardNum);
+        editTextItemId = (EditText) view.findViewById(R.id.editTextItemId);
+        radioMain = (RadioButton) view.findViewById(R.id.radioMain);
+        radioMain.setChecked(true);
+        radioSister = (RadioButton) view.findViewById(R.id.radioSister);
+        view.findViewById(R.id.btnCheckOut).setOnClickListener(this);
+        view.findViewById(R.id.btnCheckIn).setOnClickListener(this);
+        textCheckInOut = (TextView) view.findViewById(R.id.textCheckInOut);
+        textCheckInOut.setMovementMethod(new ScrollingMovementMethod());
+        return view;
+    }
+
+    @Override
+    public void onStart() {
         super.onStart();
-        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
+        controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
     /*

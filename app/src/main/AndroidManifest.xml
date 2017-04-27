@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,19 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="cheetahs.androidUI.MainActivity">
+        <activity android:name=".ActivityMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="cheetahs.androidUI.AddFileActivity" />
-        <activity android:name="cheetahs.androidUI.AddMemberActivity" />
-        <activity android:name="cheetahs.androidUI.CheckInOutActivity" />
-        <activity android:name="cheetahs.androidUI.ItemStatusActivity" />
-        <activity android:name="cheetahs.androidUI.MembersItemsActivity" />
-        <activity android:name="cheetahs.androidUI.DisplayLibraryActivity" />
     </application>
 
 </manifest>

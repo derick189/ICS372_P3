@@ -2,10 +2,12 @@ package cheetahs.androidUI;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,50 +15,50 @@ import cheetahs.controller.Controller;
 import cheetahs.storage.Storage;
 
 /**
- * AddMemberActivity allows the user to have a new library card # generated for a new library user.
+ * FragmentAddMember allows the user to have a new library card # generated for a new library user.
  * It includes an EditText object to get the new library user's name, a button to generate the
  * new card # and save it to the controller, and a TextView to output submitted user's name
  * along with their new library card #.
  */
-public class AddMemberActivity extends AppCompatActivity implements View.OnClickListener {
+public class FragmentAddMember extends Fragment implements View.OnClickListener {
+    Controller controller = new Controller();
+    View view;
     // EditText object for receiving new member name
     private EditText editTextMemberName;
     // TextView object to display output to user
     private TextView textNewMember;
-    Controller controller = new Controller();
 
     @Override
-    // onCreate restores the previous state if there had been one for the activity.
-    protected void onCreate(Bundle savedInstanceState) {
-        // calls Activity's onCreate method
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_add_member, container, false);
 
-        // Load the layout for the activity_add_member from the XML (\res\layout\activity_add_member)
-        setContentView(R.layout.activity_add_member);
+        // Load the layout for the fragment_add_member from the XML (\res\layout\fragment_add_member)
+
         // Make the editTextMemberName TextView editable for user input
-        editTextMemberName = (EditText) findViewById(R.id.editTextMemberName);
+        editTextMemberName = (EditText) view.findViewById(R.id.editTextMemberName);
         // Sets an action listener for when the Add Member button is clicked
-        findViewById(R.id.btnAddMember).setOnClickListener(this);
+        view.findViewById(R.id.btnAddMember).setOnClickListener(this);
         // Adds the TextView that will display information to the user when a new member is added
-        textNewMember = (TextView) findViewById(R.id.textNewMember);
+        textNewMember = (TextView) view.findViewById(R.id.textNewMember);
         // Allows the textNewMember view box to scroll if it goes over the length of the view
         textNewMember.setMovementMethod(new ScrollingMovementMethod());
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        controller = Storage.loadController(getExternalFilesDir(null).getPath() + "/");
+        controller = Storage.loadController(getActivity().getExternalFilesDir(null).getPath() + "/");
     }
 
-    @Override
     // onClick takes the current view and passes the name entered in the EditText object, and passes
-    // it to the MainActivity's controller object to be added
+    // it to the ActivityMain's controller object to be added
+    @Override
     public void onClick(View view) {
         // Check if Member Name is empty - don't create a new member from nothing.
         if (editTextMemberName.getText().toString().matches("")) {
             // Nothing added in EditText - tell user we need something for name
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddMemberActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             // Message to user
             builder.setMessage("Name cannot be empty. Enter a name before pushing Add Member.");
             builder.setTitle("Error");
@@ -67,7 +69,6 @@ public class AddMemberActivity extends AppCompatActivity implements View.OnClick
                     d.cancel();
                 }
 
-                ;
             });
             builder.show();
 

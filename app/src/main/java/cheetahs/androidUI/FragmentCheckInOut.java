@@ -2,6 +2,7 @@ package cheetahs.androidUI;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +87,17 @@ public class FragmentCheckInOut extends Fragment implements View.OnClickListener
             case R.id.btnCheckOut:
                 // Will display a String with item ID, item status, and library card used if successful
                 // Or an error message if it is unsuccessful
-                textCheckInOut.append(controller.checkOut(Integer.parseInt(editTextCardNum.getText().toString().trim()), editTextItemId.getText().toString().trim(), lib));
+                try {
+                    textCheckInOut.append(controller.checkOut(Integer.parseInt(editTextCardNum.getText().toString().trim()), editTextItemId.getText().toString().trim(), lib));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                    builder.setMessage("Card number cannot be empty.");
+                    builder.setTitle("Error");
+                    builder.show();
+                    return;
+                }
                 break;
             case R.id.btnCheckIn:
                 // Will return and display a String with item ID and  item status if successful

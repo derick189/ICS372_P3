@@ -2,6 +2,7 @@ package cheetahs.androidUI;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,16 @@ public class FragmentMembersItems extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        textMemberItems.append(controller.displayMemberCheckedOutItems((Integer.parseInt(editTextMemberItems.getText().toString().trim()))));
+        try {
+            textMemberItems.append(controller.displayMemberCheckedOutItems((Integer.parseInt(editTextMemberItems.getText().toString().trim()))));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+            builder.setMessage("Card number cannot be empty.");
+            builder.setTitle("Error");
+            builder.show();
+            return;
+        }
     }
 }
